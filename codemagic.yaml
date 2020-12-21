@@ -1,29 +1,42 @@
-# Check out https://docs.codemagic.io/getting-started/yaml/ for more information
-# Please review and update values in curly braces
+# Automatically generated on 2020-12-21 UTC from https://codemagic.io/app/5fe05bcb4ef4c67580d590ca/settings
+# Note that this configuration is not an exact match to UI settings. Review and adjust as necessary.
 
 workflows:
-  ios-flutter:
-    name: iOS App with Flutter Module
+  default-workflow:
+    name: Default Workflow
+    max_build_duration: 60
     environment:
-      vars:
-        FLUTTER_MODULE_DIR: "{{ ADD YOUR PATH HERE }}"
-        HOST_IOS_APP_DIR: "{{ ADD YOUR PATH HERE }}"
-        XCODE_PROJECT: "{{ ADD WORKSPACE NAME HERE }}"
-        XCODE_SCHEME: "{{ ADD SCHEME NAME HERE }}"
-      xcode: edge
-      cocoapods: default
       flutter: stable
+      xcode: latest
+      cocoapods: default
     scripts:
       - |
-        # build Flutter module
-        cd $FLUTTER_MODULE_DIR
-        flutter packages get
-        flutter build ios-framework --output=$FCI_BUILD_DIR/$HOST_IOS_APP_DIR/Flutter
+        # set up debug keystore
+        rm -f ~/.android/debug.keystore
+        keytool -genkeypair \
+          -alias androiddebugkey \
+          -keypass android \
+          -keystore ~/.android/debug.keystore \
+          -storepass android \
+          -dname 'CN=Android Debug,O=Android,C=US' \
+          -keyalg 'RSA' \
+          -keysize 2048 \
+          -validity 10000
       - |
-        # build iOS project
-        cd $HOST_IOS_APP_DIR
-        pod install
-        xcodebuild build -project "$XCODE_PROJECT.xcodeproj" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+        # set up local properties
+        echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
+      - cd . && flutter packages pub get
+      - cd . && flutter build apk --debug
+      - find . -name "Podfile" -execdir pod install \;
+      - cd . && flutter build ios --debug --no-codesign
     artifacts:
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+      - build/**/outputs/**/*.apk
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - p.pellican@tiscali.it
