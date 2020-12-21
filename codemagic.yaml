@@ -4,11 +4,11 @@
 workflows:
   default-workflow:
     name: Default Workflow
-    max_build_duration: 60 
+    max_build_duration: 60
     environment:
       flutter: stable
       xcode: latest
-      cocoapods: default
+      cocoapods: 1.10.0.beta.2
     scripts:
       - |
         # set up debug keystore
