@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "33743667224",
+    "firebase_url": "https://ios-agenda-ore.firebaseio.com",
+    "project_id": "ios-agenda-ore",
+    "storage_bucket": "ios-agenda-ore.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33743667224:android:ee41dd653a57ae965d836d",
+        "android_client_info": {
+          "package_name": "com.example.ios_agenda_ore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "33743667224-qbsjtiuhl8efef1gnnk4l5bnum7qaagp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANlzMn2Q5RihGkrCAJpWkIC-eVzsujbGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "33743667224-qbsjtiuhl8efef1gnnk4l5bnum7qaagp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
