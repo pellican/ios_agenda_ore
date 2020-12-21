@@ -1,16 +1,13 @@
-import 'package:date_utils/date_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ios_agenda_ore/database/datamesi.dart';
 import 'dart:ui' as ui;
 
 import 'package:ios_agenda_ore/mesi_0.dart';
 class Anno extends StatefulWidget {
-  Function setdata;
+  final Function setdata;
   Anno(this.setdata);
 
   @override
@@ -22,15 +19,16 @@ class _Anno extends State<Anno>{
   DateTime datapre = DateTime.now();
   DateTime datadop = DateTime.now();
   String languageCode = ui.window.locale.languageCode;
-  List mesi_anno;
+  List _mesi_anno;
   String date;
   var box;
   int current;
   PageController controller =PageController(initialPage: 1,keepPage: false);
 
+
   @override
   void initState() {
-    mesi_anno = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+    _mesi_anno = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
     box = Hive.openBox('datamesi');
 
 
@@ -77,9 +75,9 @@ class _Anno extends State<Anno>{
             return PageView(
               controller: controller,
               children: [
-                Mesi_0(mesi_anno,datapre,widget.setdata,refresh),
-                Mesi_0(mesi_anno,data,widget.setdata,refresh),
-                Mesi_0(mesi_anno,datadop,widget.setdata,refresh)
+                Mesi_0(_mesi_anno,datapre,widget.setdata,refresh),
+                Mesi_0(_mesi_anno,data,widget.setdata,refresh),
+                Mesi_0(_mesi_anno,datadop,widget.setdata,refresh)
               ],
 
             );
@@ -97,7 +95,7 @@ class _Anno extends State<Anno>{
               children: [
                 Padding(padding: EdgeInsets.only(left: 20),
                     child: Text('Lavorato: ',style: TextStyle(fontSize: 18),)),
-                Text(totale_lavorato(),style: TextStyle(fontSize: 25)),
+                Text(_totale_lavorato(),style: TextStyle(fontSize: 25)),
               ],
             );
           }else return Container();
@@ -105,7 +103,7 @@ class _Anno extends State<Anno>{
       ),
     );
   }
- totale_lavorato(){
+ _totale_lavorato(){
 
     var box = Hive.box('datamesi');
     int ora,min;
@@ -113,7 +111,7 @@ class _Anno extends State<Anno>{
     int oraT = 0;
     int minT = 0;
     for (int i=0;i<12;i++){
-      var dati = box.get(mesi_anno[i]+date) as Mesi;
+      var dati = box.get(_mesi_anno[i]+date) as Mesi;
       if (dati != null) {
         ora = int.parse(dati.lavorato.substring(0,2));
         min = int.parse(dati.lavorato.substring(3,5));

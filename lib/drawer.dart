@@ -18,6 +18,7 @@ class AppDrawer extends StatelessWidget {
           margin: EdgeInsets.zero,
           padding: EdgeInsets.zero,
           decoration: BoxDecoration(image: DecorationImage(image: AssetImage('images/drawer_icon.png'),fit: BoxFit.fill)),
+            child: Container(),
           ),
           ListTile(contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
             title: Text('Mese',style: TextStyle(fontSize: 20),),
