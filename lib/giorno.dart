@@ -1,4 +1,5 @@
 
+import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/cupertino.dart';
@@ -347,258 +348,281 @@ class _Giorno extends State<Giorno>{
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(widget.data),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton( icon: salvato ? Icon(Icons.delete,size: 35):Icon(null),onPressed: (){
-            showDialog(context: context,builder: (BuildContext context){
-              return AlertDialog(
-                title: Text('Vuoi Eliminare !'),
-                content: Text(widget.data),
-                actions: [
-                  TextButton(
-                      child: Text('Ok'),
-                      onPressed: () {
-                        box.delete(widget.data);
-                        widget.goback();
-                        Navigator.of(context).popUntil((route) => route.isFirst);
+   // GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-                      })
-                ],
-              );
-            });
-          },)
-        ],
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              color: Colors.blueGrey[100],
-              padding: EdgeInsets.fromLTRB(30,0,30,20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Ora Inizio:',style: TextStyle(fontSize: 20)),
-                          GestureDetector(
-                            onTapDown: (TapDownDetails detail){
-                             if (!salvato) popup(detail.globalPosition,'inizio');
-                            },
-                            child:Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[400],
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
-                              child:  Text(inizio,style: TextStyle(fontSize: 25,color: iz ?Colors.black:Colors.grey)),
-                            ),
-                          ),
+    return Hero(
+      tag: widget.data,
 
+      child: Scaffold(
+       // key: _scaffoldKey,
+        appBar: AppBar(
+          title: Text(widget.data),
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton( icon: salvato ? Icon(Icons.delete,size: 35):Icon(null),onPressed: (){
+              showDialog(context: context,builder: (BuildContext context){
+                return AlertDialog(
+                  title: Text('Vuoi Eliminare !'),
+                  content: Text(widget.data),
+                  actions: [
+                    TextButton(
+                        child: Text('Ok'),
+                        onPressed: () {
+                          box.delete(widget.data);
+                          widget.goback();
+                          Navigator.of(context).popUntil((route) => route.isFirst);
 
-                        ],
-                      ),
-
-                      Column(
-                        children: [
-                          Padding(padding: EdgeInsets.only(top: 50),),
-                          Text('Pause:',style: TextStyle(fontSize: 20)),
-                          GestureDetector(
-                            onTapDown: (TapDownDetails detail){
-                              if (!salvato) popupPause(detail.globalPosition,'pause1');
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[400],
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
-                              child:  Text(pause1,style: TextStyle(fontSize: 25,color: p1 ?Colors.black:Colors.grey)),
-                            ),
-                          )
-                        ],
-                      ),
-
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(top: 50),),
-                      Text('Fine Mattino:',style: TextStyle(fontSize: 20)),
-                      GestureDetector(
-                          onTapDown: (TapDownDetails detail){
-                            if (!salvato) popup(detail.globalPosition,'finmat');
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              border: errore ?  Border.all(width: 2,color: Colors.red):Border.all(width: 2,color: Colors.blueGrey[100]),
-                              color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child:  Text(finmat,style: TextStyle(fontSize: 25,color: fm ?Colors.black:Colors.grey)),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 20,
-              color: Colors.blueGrey[50],
-            ),
-            Container(
-              color: Colors.blueGrey[100],
-              padding: EdgeInsets.fromLTRB(30,0,30,20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Inizio Pomerigio:',style: TextStyle(fontSize: 20)),
-                          GestureDetector(
-                              onTapDown: (TapDownDetails detail){
-                                if (!salvato) popup(detail.globalPosition,'inizpom');
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[400],
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
-                              child:  Text(inizpom,style: TextStyle(fontSize: 25,color: ip ?Colors.black:Colors.grey)),
-                            ),
-                          )
-
-                        ],
-                      ),
-
-                      Column(
-                        children: [
-                          Padding(padding: EdgeInsets.only(top: 50),),
-                          Text('Pause:',style: TextStyle(fontSize: 20)),
-                          GestureDetector(
-                              onTapDown: (TapDownDetails detail){
-                                if (!salvato) popupPause(detail.globalPosition,'pause2');
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[400],
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
-                              child:  Text(pause2,style: TextStyle(fontSize: 25,color: p2 ?Colors.black:Colors.grey)),
-                            ),
-                          )
-                        ],
-                      ),
-
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(top: 50),),
-                      Text('Fine Lavoro: ',style: TextStyle(fontSize: 20)),
-                      GestureDetector(
-                          onTapDown: (TapDownDetails detail){
-                            if (!salvato) popup(detail.globalPosition,'fine');
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              border: errore ? Border.all(width: 2,color: Colors.red):Border.all(width: 2,color: Colors.blueGrey[100]),
-                              color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child:  Text(fine,style: TextStyle(fontSize: 25,color: fi ?Colors.black:Colors.grey)),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 260,
-              width: double.infinity,
-              color: Colors.blueGrey[50],
-              child: FutureBuilder (future: callAsync(),builder: (context,snapshop){
-                if (snapshop.hasData){
-                  return banner;
-                } else return Container();
-
-              },
-
-              ),
-
-              ),
-
+                        })
+                  ],
+                );
+              });
+            },)
           ],
         ),
-      ),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                color: Colors.blueGrey[100],
+                padding: EdgeInsets.fromLTRB(30,0,30,20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Ora Inizio:',style: TextStyle(fontSize: 20)),
+                              GestureDetector(
+                                onTapDown: (TapDownDetails detail){
+                                 if (!salvato) popup(detail.globalPosition,'inizio');
+                                },
+                                child:Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[400],
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child:  Text(inizio,style: TextStyle(fontSize: 25,color: iz ?Colors.black:Colors.grey)),
+                                ),
+                              ),
 
-      bottomNavigationBar: Container(
-        height: 60,
-        decoration: BoxDecoration(
-            color: Colors.grey[200],
-            boxShadow: [BoxShadow(color: Colors.grey,blurRadius: 6.0,offset: const Offset(0.0, 1.0))]
-        ),child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(padding: EdgeInsets.only(left: 40),child: Text(errore ? zeroTime(0,0):zeroTime(oraT, minT),style: TextStyle(fontSize: 25)),),
-          Padding(padding: EdgeInsets.only(right: 20),child:IconButton(icon: salvato ? Icon(Icons.mode_edit):Icon(Icons.save),iconSize: 45,
-            onPressed: () {
-                  if (salvato){
-                    Fluttertoast.showToast(
-                        msg: "Modifica",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.blueGrey[200],
-                        textColor: Colors.black,
-                        fontSize: 16.0
-                    );
-                    setState(() {
-                      salvato=false;
-                    });
-                }else {
-                    if (errore) {
-                    showDialog(context: context,builder: (BuildContext context){
-                      return AlertDialog(
-                        title: Text('Errore !'),
-                        content: Text('Controlla i Dati'),
-                        actions: [
-                          TextButton(
-                          child: Text('Ok'),
-                          onPressed: () {
-                          Navigator.of(context).pop();
-                          })
+
+                            ],
+                          ),
+                        ),
+
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Padding(padding: EdgeInsets.only(top: 50),),
+                              Text('Pause:',style: TextStyle(fontSize: 20)),
+                              GestureDetector(
+                                onTapDown: (TapDownDetails detail){
+                                  if (!salvato) popupPause(detail.globalPosition,'pause1');
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[400],
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child:  Text(pause1,style: TextStyle(fontSize: 25,color: p1 ?Colors.black:Colors.grey)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Padding(padding: EdgeInsets.only(top: 50)),
+                          Text('Fine Mattino:',style: TextStyle(fontSize: 20)),
+
+                          GestureDetector(
+                              onTapDown: (TapDownDetails detail){
+                                if (!salvato) popup(detail.globalPosition,'finmat');
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  border: errore ?  Border.all(width: 2,color: Colors.red):Border.all(width: 2,color: Colors.blueGrey[100]),
+                                  color: Colors.grey[400],
+                                  borderRadius: BorderRadius.circular(10)
+                              ),
+                              child:  Text(finmat,style: TextStyle(fontSize: 25,color: fm ?Colors.black:Colors.grey))
+                            ),
+                          )
                         ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 20,
+                color: Colors.blueGrey[50],
+              ),
+              Container(
+                color: Colors.blueGrey[100],
+                padding: EdgeInsets.fromLTRB(30,0,30,20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Inizio Pomerigio:',style: TextStyle(fontSize: 20)),
+                              GestureDetector(
+                                  onTapDown: (TapDownDetails detail){
+                                    if (!salvato) popup(detail.globalPosition,'inizpom');
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[400],
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child:  Text(inizpom,style: TextStyle(fontSize: 25,color: ip ?Colors.black:Colors.grey)),
+                                ),
+                              )
+
+                            ],
+                          ),
+                        ),
+
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Padding(padding: EdgeInsets.only(top: 50),),
+                              Text('Pause:',style: TextStyle(fontSize: 20)),
+                              GestureDetector(
+                                  onTapDown: (TapDownDetails detail){
+                                    if (!salvato) popupPause(detail.globalPosition,'pause2');
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[400],
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child:  Text(pause2,style: TextStyle(fontSize: 25,color: p2 ?Colors.black:Colors.grey)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Padding(padding: EdgeInsets.only(top: 50),),
+                          Text('Fine Lavoro: ',style: TextStyle(fontSize: 20)),
+                          GestureDetector(
+                              onTapDown: (TapDownDetails detail){
+                                if (!salvato) popup(detail.globalPosition,'fine');
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  border: errore ? Border.all(width: 2,color: Colors.red):Border.all(width: 2,color: Colors.blueGrey[100]),
+                                  color: Colors.grey[400],
+                                  borderRadius: BorderRadius.circular(10)
+                              ),
+                              child:  Text(fine,style: TextStyle(fontSize: 25,color: fi ?Colors.black:Colors.grey)),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 260,
+                width: double.infinity,
+                color: Colors.blueGrey[50],
+                child: FutureBuilder (future: callAsync(),builder: (context,snapshop){
+                  if (snapshop.hasData){
+                    return banner;
+                  } else return Container();
+
+                },
+
+                ),
+
+                ),
+
+            ],
+          ),
+        ),
+
+        bottomNavigationBar: Container(
+          height: 60,
+          decoration: BoxDecoration(
+              color: Colors.grey[200],
+              boxShadow: [BoxShadow(color: Colors.grey,blurRadius: 6.0,offset: const Offset(0.0, 1.0))]
+          ),child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(child: Padding(padding: EdgeInsets.only(left: 40),child: Text(errore ? zeroTime(0,0):zeroTime(oraT, minT),style: TextStyle(fontSize: 25)),)),
+              Padding(padding: EdgeInsets.only(right: 20),child:IconButton(icon: salvato ? Icon(Icons.mode_edit):Icon(Icons.save),iconSize: 45,
+                 onPressed: () {
+                    if (salvato){
+                      Fluttertoast.showToast(
+                          msg: "Modifica",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.blueGrey[200],
+                          textColor: Colors.black,
+                          fontSize: 16.0
                       );
-                    });
+                      setState(() {
+                        salvato=false;
+                      });
+                  }else {
+                      if (errore) {
+                      showDialog(context: context,builder: (BuildContext context){
+                        return AlertDialog(
+                          title: Text('Errore !'),
+                          content: Text('Controlla i Dati'),
+                          actions: [
+                            TextButton(
+                            child: Text('Ok'),
+                            onPressed: () {
+                            Navigator.of(context).pop();
+                            })
+                          ],
+                        );
+                      });
 
-                    }else conferma();
-                  }
-            },),)
-        ],
-      ),
-      ),
+                      }else conferma();
+                    }
+              },),)
+          ],
+        ),
+        ),
 
+      ),
     );
 
   }

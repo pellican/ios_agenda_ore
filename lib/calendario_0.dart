@@ -9,17 +9,18 @@ import 'package:intl/intl.dart';
 
 
 
-class Calendario_0 extends StatelessWidget {
-  Function goback;
-  List giorni,orario;
-  DateTime data;
+class Calendario0 extends StatelessWidget {
+  final Function goback;
+  final List giorni;
+  List orario;
+  final DateTime data;
   var box =Hive.box('database');
-  Calendario_0(this.data,this.giorni,this.goback);
+  Calendario0(this.data,this.giorni,this.goback);
 
-  String languageCode = ui.window.locale.languageCode;
+  final String languageCode = ui.window.locale.languageCode;
   String mese;
 
-  DateTime verdata = DateTime.now();
+  final DateTime verdata = DateTime.now();
 
 
   @override
@@ -39,36 +40,57 @@ class Calendario_0 extends StatelessWidget {
                 childAspectRatio: 0.65),
             itemBuilder: (BuildContext context, int index) {
               var orai = box.get(giorni[index]+' ' + mese) as Giornate;
-
+              String datas = giorni[index] + ' '+mese;
               if (giorni[index] == "") {
                 return Container();
               } else {
                 return InkWell(
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Hero(
+                    tag: datas,
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
 
-                    color: giorni[index] == verdata.day.toString() &&
-                        data.month == verdata.month
-                        && data.year == verdata.year
-                        ? Colors.grey[300]
-                        : Colors.white,
+                      color: giorni[index] == verdata.day.toString() &&
+                          data.month == verdata.month
+                          && data.year == verdata.year
+                          ? Colors.grey[300]
+                          : Colors.white,
 
-                    child: Column(
-                      children: [
-                        Text(giorni[index], style: new TextStyle(
-                            fontSize: 20, color: Colors.blue),),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-                            child: Text(orai != null ? orai.totale : '')
-                        )
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Text(giorni[index], style: TextStyle(
+                                fontSize: 20, color: Colors.blue),),
+                          ),
+                          Expanded(
+                            child: Padding(
+                                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                child: Text(orai != null ? orai.totale : '',style: TextStyle(fontSize: 14,color: Colors.black),)
+                            ),
+                          )
 
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   onTap: () {
-                    String datas = giorni[index] + ' '+mese;
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Giorno(datas,goback)));
+                    Navigator.of(context).push(
+                      PageRouteBuilder<Null>(
+                          pageBuilder: (BuildContext context, Animation<double> animation,
+                              Animation<double> secondaryAnimation) {
+                            return AnimatedBuilder(
+                                animation: animation,
+                                builder: (BuildContext context, Widget child) {
+                                  return Opacity(
+                                    opacity: animation.value,
+                                    child: Giorno(datas,goback),
+                                  );
+                                });
+                          },
+                          transitionDuration: Duration(milliseconds: 500)),
+                    );
+                   // Navigator.push(context,
+                   //     MaterialPageRoute( builder: (context) => Giorno(datas,goback)));
 
                   },
                 );

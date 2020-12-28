@@ -197,9 +197,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             //  onPageChanged: onpage,
 
                             children: [
-                              Calendario_0(datapre, giorni(datapre),onGoBack),
-                              Calendario_0(data, giorni(data),onGoBack),
-                              Calendario_0(datadop, giorni(datadop),onGoBack)
+                              Calendario0(datapre, giorni(datapre),onGoBack),
+                              Calendario0(data, giorni(data),onGoBack),
+                              Calendario0(datadop, giorni(datadop),onGoBack)
                             ],
                             pageSnapping: true,
 

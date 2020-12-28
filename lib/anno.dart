@@ -19,7 +19,7 @@ class _Anno extends State<Anno>{
   DateTime datapre = DateTime.now();
   DateTime datadop = DateTime.now();
   String languageCode = ui.window.locale.languageCode;
-  List _mesi_anno;
+  List mesiAnno;
   String date;
   var box;
   int current;
@@ -28,7 +28,7 @@ class _Anno extends State<Anno>{
 
   @override
   void initState() {
-    _mesi_anno = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+    mesiAnno = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
     box = Hive.openBox('datamesi');
 
 
@@ -75,9 +75,9 @@ class _Anno extends State<Anno>{
             return PageView(
               controller: controller,
               children: [
-                Mesi_0(_mesi_anno,datapre,widget.setdata,refresh),
-                Mesi_0(_mesi_anno,data,widget.setdata,refresh),
-                Mesi_0(_mesi_anno,datadop,widget.setdata,refresh)
+                Mesi_0(mesiAnno,datapre,widget.setdata,refresh),
+                Mesi_0(mesiAnno,data,widget.setdata,refresh),
+                Mesi_0(mesiAnno,datadop,widget.setdata,refresh)
               ],
 
             );
@@ -95,7 +95,7 @@ class _Anno extends State<Anno>{
               children: [
                 Padding(padding: EdgeInsets.only(left: 20),
                     child: Text('Lavorato: ',style: TextStyle(fontSize: 18),)),
-                Text(_totale_lavorato(),style: TextStyle(fontSize: 25)),
+                Text(totaleLavorato(),style: TextStyle(fontSize: 25)),
               ],
             );
           }else return Container();
@@ -103,7 +103,7 @@ class _Anno extends State<Anno>{
       ),
     );
   }
- _totale_lavorato(){
+ totaleLavorato(){
 
     var box = Hive.box('datamesi');
     int ora,min;
@@ -111,7 +111,7 @@ class _Anno extends State<Anno>{
     int oraT = 0;
     int minT = 0;
     for (int i=0;i<12;i++){
-      var dati = box.get(_mesi_anno[i]+date) as Mesi;
+      var dati = box.get(mesiAnno[i]+date) as Mesi;
       if (dati != null) {
         ora = int.parse(dati.lavorato.substring(0,2));
         min = int.parse(dati.lavorato.substring(3,5));
