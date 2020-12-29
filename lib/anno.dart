@@ -19,7 +19,6 @@ class _Anno extends State<Anno>{
   DateTime datapre = DateTime.now();
   DateTime datadop = DateTime.now();
   String languageCode = ui.window.locale.languageCode;
-  List mesiAnno;
   String date;
   var box;
   int current;
@@ -28,10 +27,7 @@ class _Anno extends State<Anno>{
 
   @override
   void initState() {
-    mesiAnno = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
     box = Hive.openBox('datamesi');
-
-
     controller.addListener(() {
       current =controller.page.round();
       onpage();
@@ -75,9 +71,9 @@ class _Anno extends State<Anno>{
             return PageView(
               controller: controller,
               children: [
-                Mesi_0(mesiAnno,datapre,widget.setdata,refresh),
-                Mesi_0(mesiAnno,data,widget.setdata,refresh),
-                Mesi_0(mesiAnno,datadop,widget.setdata,refresh)
+                Mesi_0(datapre,widget.setdata,refresh),
+                Mesi_0(data,widget.setdata,refresh),
+                Mesi_0(datadop,widget.setdata,refresh)
               ],
 
             );
@@ -107,11 +103,13 @@ class _Anno extends State<Anno>{
 
     var box = Hive.box('datamesi');
     int ora,min;
-    String totaleS;
+    String totaleS,meAnno;
     int oraT = 0;
     int minT = 0;
     for (int i=0;i<12;i++){
-      var dati = box.get(mesiAnno[i]+date) as Mesi;
+      meAnno = DateFormat('MMMM', languageCode).format(new DateTime(0,i + 1));
+      meAnno = meAnno[0].toUpperCase() + meAnno.substring(1);
+      var dati = box.get(meAnno + date) as Mesi;
       if (dati != null) {
         ora = int.parse(dati.lavorato.substring(0,2));
         min = int.parse(dati.lavorato.substring(3,5));

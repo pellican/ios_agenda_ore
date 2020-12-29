@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
         const Locale('en','UK'),
         const Locale('en','US')
       ],
-      home:  MyHomePage(title: 'Flutter Demo Home Page'),
+      home:  MyHomePage(),
 
 
     );
@@ -66,10 +66,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  MyHomePage();
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -87,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
   PageController controller =PageController(initialPage: 1,keepPage: false);
   var box;
   Future<void> _initAdMob() {
-    WidgetsFlutterBinding.ensureInitialized();
+    //WidgetsFlutterBinding.ensureInitialized();
     Admob.initialize();
   }
   @override

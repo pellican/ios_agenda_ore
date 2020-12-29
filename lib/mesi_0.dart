@@ -14,11 +14,11 @@ import 'database/datamesi.dart';
 class Mesi_0 extends StatelessWidget{
   Function setdata,refresh;
   DateTime date;
-  List mesi_anno;
-  String anno;
+
+  String anno,meAnno;
   var box =Hive.box('datamesi');
   String languageCode = ui.window.locale.languageCode;
-  Mesi_0(this.mesi_anno,this.date,this.setdata,this.refresh);
+  Mesi_0(this.date,this.setdata,this.refresh);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,9 @@ class Mesi_0 extends StatelessWidget{
             crossAxisSpacing: 2,
             childAspectRatio: 1),
           itemBuilder: (BuildContext context, int index){
-            var dati = box.get(mesi_anno[index]+anno) as Mesi;
+            meAnno = DateFormat('MMMM', languageCode).format(new DateTime(0,index + 1));
+            meAnno = meAnno[0].toUpperCase() + meAnno.substring(1);
+            var dati = box.get(meAnno + anno) as Mesi;
             return Hero(
               tag: index.toString(),
               child: Material(
@@ -44,7 +46,7 @@ class Mesi_0 extends StatelessWidget{
                     color: Colors.white,
                     child: Column(
                       children: [
-                        Text(mesi_anno[index], style: new TextStyle(
+                        Text(meAnno, style: new TextStyle(
                             fontSize: 20, color: Colors.blue),),
 
                             Padding(
@@ -103,7 +105,7 @@ class Mesi_0 extends StatelessWidget{
                                     child: Material(color: Colors.blue[300],borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
                                       child: Padding(padding: const EdgeInsets.only(left: 20,right: 10),
                                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children:[
-                                              Expanded(child: Text(mesi_anno[index]+anno,style: TextStyle(fontSize: 20,color: Colors.black))),
+                                              Expanded(child: Text(meAnno + anno,style: TextStyle(fontSize: 20,color: Colors.black))),
                                               IconButton(icon: Icon( Icons.calendar_today,size: 30,), onPressed: (){
                                                         setdata(new DateTime(date.year,index+1));
                                                         Navigator.of(context).popUntil((route) => route.isFirst);
