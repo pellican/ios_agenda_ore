@@ -8,7 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:ios_agenda_ore/util/heroDialogRoute.dart';
 import 'dart:ui' as ui;
-
+import 'package:easy_localization/easy_localization.dart';
 import 'database/datamesi.dart';
 
 class Mesi_0 extends StatelessWidget{
@@ -54,7 +54,7 @@ class Mesi_0 extends StatelessWidget{
                               child:
                               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('Lavorato',style: TextStyle(fontSize: 12),),
+                                    Text('Lavorato',style: TextStyle(fontSize: 12),).tr(),
                                     Text(dati != null ? dati.lavorato : '',style: TextStyle(fontSize: 15),)
                                   ],
                               )
@@ -66,7 +66,7 @@ class Mesi_0 extends StatelessWidget{
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Pagato',style: TextStyle(fontSize: 12),),
+                                Text('Pagato',style: TextStyle(fontSize: 12),).tr(),
                                 Text(dati != null ? dati.pagato : '',style: TextStyle(fontSize: 15),)
                               ],
                             )
@@ -78,7 +78,7 @@ class Mesi_0 extends StatelessWidget{
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Resto',style: TextStyle(fontSize: 12),),
+                                Text('Resto',style: TextStyle(fontSize: 12),).tr(),
                                 Text(dati != null ? dati.resto : '',style: TextStyle(fontSize: 15),)
                               ],
                             )
@@ -116,7 +116,7 @@ class Mesi_0 extends StatelessWidget{
                                     child: Material(
                                       child: Padding( padding: const EdgeInsets.only(left: 20,right: 20),
                                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [ Text('Lavorato',style: TextStyle(fontSize: 20,color: Colors.black)),
+                                          children: [ Text('Lavorato',style: TextStyle(fontSize: 20,color: Colors.black)).tr(),
                                             Text(dati != null ? dati.lavorato : '',style: TextStyle(fontSize: 20,color: Colors.black),)
                                         ])),
                                     ),
@@ -125,7 +125,7 @@ class Mesi_0 extends StatelessWidget{
                                     child: Material(
                                       child: Padding( padding: const EdgeInsets.only(left: 20,right: 20),
                                           child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [ Text('Pagato',style: TextStyle(fontSize: 20,color: Colors.black)),
+                                              children: [ Text('Pagato',style: TextStyle(fontSize: 20,color: Colors.black)).tr(),
                                                 if (!edit && dati != null) IconButton(icon: dati.pagato != '0'? Icon(Icons.clear):Icon(Icons.mode_edit),iconSize: 30 ,onPressed:() {
                                                     setStato((){ edit = true;});
                                                 },),
@@ -151,7 +151,7 @@ class Mesi_0 extends StatelessWidget{
                                     child: Material(
                                       child: Padding( padding: const EdgeInsets.only(left: 20,right: 20),
                                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                         children: [Text('Resto',style: TextStyle(fontSize: 20,color: Colors.black)),
+                                         children: [Text('Resto',style: TextStyle(fontSize: 20,color: Colors.black)).tr(),
                                           Text(dati != null ? dati.resto : '',style: TextStyle(fontSize: 20,color: Colors.black),)
                                         ],
                                       ),),
@@ -164,7 +164,7 @@ class Mesi_0 extends StatelessWidget{
                                       children: [
                                         Expanded(child:SizedBox.expand(child: RaisedButton(color: Colors.white,shape: RoundedRectangleBorder(
                                             borderRadius:BorderRadius.only(bottomLeft: Radius.circular(20))),
-                                          child:Text('Annulla',style: TextStyle(fontSize: 20)),
+                                          child:Text('Annulla',style: TextStyle(fontSize: 20)).tr(),
                                           onPressed: (){Navigator.pop(context);},
                                         ),)),
                                         VerticalDivider(color: Colors.grey,width: 2,),

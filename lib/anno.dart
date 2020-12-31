@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:ios_agenda_ore/database/datamesi.dart';
 import 'dart:ui' as ui;
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ios_agenda_ore/mesi_0.dart';
 class Anno extends StatefulWidget {
   final Function setdata;
@@ -90,7 +90,7 @@ class _Anno extends State<Anno>{
             return Row(
               children: [
                 Padding(padding: EdgeInsets.only(left: 20),
-                    child: Text('Lavorato: ',style: TextStyle(fontSize: 18),)),
+                    child: Text('Lavorato',style: TextStyle(fontSize: 18),).tr()),
                 Text(totaleLavorato(),style: TextStyle(fontSize: 25)),
               ],
             );

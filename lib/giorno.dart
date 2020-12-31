@@ -1,10 +1,9 @@
 
-import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ios_agenda_ore/ad_manager.dart';
 
 import 'package:ios_agenda_ore/database/giornate.dart';
@@ -157,7 +156,7 @@ class _Giorno extends State<Giorno>{
                       height: 50,
                       minWidth: 80,
                       child: RaisedButton(padding: EdgeInsets.all(0.0),
-                        child: Text('Setta', style: TextStyle(fontSize: 18),),
+                        child: Text('Setta', style: TextStyle(fontSize: 18),).tr(),
                         color: Colors.blueGrey[200],
                         onPressed: () {
                           setStato ((){
@@ -179,7 +178,7 @@ class _Giorno extends State<Giorno>{
                       height: 50,
                       minWidth: 80,
                       child: RaisedButton(padding: EdgeInsets.all(0.0),
-                        child: Text('Annulla', style: TextStyle(fontSize: 18)),
+                        child: Text('Annulla', style: TextStyle(fontSize: 18)).tr(),
                         color: Colors.blueGrey[200],
                         onPressed: () {
                           Navigator.pop(context);
@@ -306,8 +305,7 @@ class _Giorno extends State<Giorno>{
                           height: 50,
                           minWidth: 80,
                           child: RaisedButton(padding: EdgeInsets.all(0.0),
-                            child: Text(
-                                'Annulla', style: TextStyle(fontSize: 18)),
+                            child: Text('Annulla', style: TextStyle(fontSize: 18)).tr(),
                             color: Colors.blueGrey[200],
                             onPressed: () {
                               Navigator.pop(context);
@@ -397,7 +395,7 @@ class _Giorno extends State<Giorno>{
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Ora Inizio:',style: TextStyle(fontSize: 20)),
+                              Text('Ora Inizio:',style: TextStyle(fontSize: 20)).tr(),
                               GestureDetector(
                                 onTapDown: (TapDownDetails detail){
                                  if (!salvato) popup(detail.globalPosition,'inizio');
@@ -422,7 +420,7 @@ class _Giorno extends State<Giorno>{
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Padding(padding: EdgeInsets.only(top: 50),),
-                              Text('Pause:',style: TextStyle(fontSize: 20)),
+                              Text('Pause:',style: TextStyle(fontSize: 20)).tr(),
                               GestureDetector(
                                 onTapDown: (TapDownDetails detail){
                                   if (!salvato) popupPause(detail.globalPosition,'pause1');
@@ -447,7 +445,7 @@ class _Giorno extends State<Giorno>{
                       child: Row(
                         children: [
                           Padding(padding: EdgeInsets.only(top: 50)),
-                          Text('Fine Mattino:',style: TextStyle(fontSize: 20)),
+                          Text('Fine Mattino:',style: TextStyle(fontSize: 20)).tr(),
 
                           GestureDetector(
                               onTapDown: (TapDownDetails detail){
@@ -486,7 +484,7 @@ class _Giorno extends State<Giorno>{
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Inizio Pomerigio:',style: TextStyle(fontSize: 20)),
+                              Text('Inizio Pomerigio:',style: TextStyle(fontSize: 20)).tr(),
                               GestureDetector(
                                   onTapDown: (TapDownDetails detail){
                                     if (!salvato) popup(detail.globalPosition,'inizpom');
@@ -510,7 +508,7 @@ class _Giorno extends State<Giorno>{
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Padding(padding: EdgeInsets.only(top: 50),),
-                              Text('Pause:',style: TextStyle(fontSize: 20)),
+                              Text('Pause:',style: TextStyle(fontSize: 20)).tr(),
                               GestureDetector(
                                   onTapDown: (TapDownDetails detail){
                                     if (!salvato) popupPause(detail.globalPosition,'pause2');
@@ -535,7 +533,7 @@ class _Giorno extends State<Giorno>{
                       child: Row(
                         children: [
                           Padding(padding: EdgeInsets.only(top: 50),),
-                          Text('Fine Lavoro: ',style: TextStyle(fontSize: 20)),
+                          Text('Fine Lavoro: ',style: TextStyle(fontSize: 20)).tr(),
                           GestureDetector(
                               onTapDown: (TapDownDetails detail){
                                 if (!salvato) popup(detail.globalPosition,'fine');
@@ -588,7 +586,7 @@ class _Giorno extends State<Giorno>{
                  onPressed: () {
                     if (salvato){
                       Fluttertoast.showToast(
-                          msg: "Modifica",
+                          msg: "Modifica".tr(),
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.BOTTOM,
                           timeInSecForIosWeb: 1,
@@ -603,8 +601,8 @@ class _Giorno extends State<Giorno>{
                       if (errore) {
                       showDialog(context: context,builder: (BuildContext context){
                         return AlertDialog(
-                          title: Text('Errore !'),
-                          content: Text('Controlla i Dati'),
+                          title: Text('Errore !').tr(),
+                          content: Text('Controlla i Dati').tr(),
                           actions: [
                             TextButton(
                             child: Text('Ok'),
@@ -641,15 +639,15 @@ class _Giorno extends State<Giorno>{
               children: [
                 Container(height: 60,width:double.infinity,
                     decoration: BoxDecoration(color: Colors.blue[300],borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))),
-                    child: Center(child: Text(widget.data+' ore: '+zeroTime(oraT, minT),style: TextStyle(fontSize: 20),))),
-                Text('Vuoi Salvare?',style: TextStyle(fontSize: 20),),
+                    child: Center(child: Text(widget.data+' ore: '.tr()+zeroTime(oraT, minT),style: TextStyle(fontSize: 20),))),
+                Text('Vuoi Salvare?',style: TextStyle(fontSize: 20),).tr(),
                 Container(height: 60,
                   decoration: BoxDecoration(border: Border.all(width: 1,color: Colors.grey),borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20))),
                   child: Row(
                     children: [
                       Expanded(child:SizedBox.expand(child: RaisedButton(color: Colors.white,shape: RoundedRectangleBorder(
                           borderRadius:BorderRadius.only(bottomLeft: Radius.circular(20))),
-                          child:Text('Annulla',style: TextStyle(fontSize: 20)),
+                          child:Text('Annulla',style: TextStyle(fontSize: 20)).tr(),
                         onPressed: (){Navigator.pop(context);},
                       ),)),
 
@@ -664,7 +662,7 @@ class _Giorno extends State<Giorno>{
                             zeroTime(oraInP, minInP), zeroTime(orapaP, minpaP), zeroTime(oraFin, minFin), zeroTime(oraT, minT)));
                         widget.goback();
                         Fluttertoast.showToast(
-                            msg: "Dati Salvati",
+                            msg: "Dati Salvati".tr(),
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 1,

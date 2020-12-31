@@ -1,4 +1,5 @@
 import 'package:date_utils/date_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,7 +10,6 @@ import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import 'package:intl/date_symbol_data_local.dart';
 import 'dart:async';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:ios_agenda_ore/anno.dart';
 import 'package:ios_agenda_ore/database/datamesi.dart';
@@ -30,7 +30,11 @@ void main() async{
   Hive..init(appDocDir.path)..registerAdapter(MesiAdapter());
 
 
-  runApp(MyApp());
+  runApp(EasyLocalization(
+      supportedLocales: [Locale('en', 'US'), Locale('it', 'IT'),Locale('en','UK')],
+      path: 'assets/translations', // <-- change patch to your
+      fallbackLocale: Locale('it', 'IT'),
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -38,6 +42,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
 
       title: 'ios Agenda ore',
       theme: ThemeData(
@@ -48,16 +55,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
 
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('it','IT'),
-        const Locale('en','UK'),
-        const Locale('en','US')
-      ],
+
       home:  MyHomePage(),
 
 
@@ -172,13 +170,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("lun",style: TextStyle(fontSize: 18)),
-                          Text("mar",style: TextStyle(fontSize: 18)),
-                          Text("mer",style: TextStyle(fontSize: 18)),
-                          Text("gio",style: TextStyle(fontSize: 18)),
-                          Text("ven",style: TextStyle(fontSize: 18)),
-                          Text("sab",style: TextStyle(fontSize: 18)),
-                          Text("dom",style: TextStyle(fontSize: 18))
+                          Text("lun",style: TextStyle(fontSize: 18)).tr(),
+                          Text("mar",style: TextStyle(fontSize: 18)).tr(),
+                          Text("mer",style: TextStyle(fontSize: 18)).tr(),
+                          Text("gio",style: TextStyle(fontSize: 18)).tr(),
+                          Text("ven",style: TextStyle(fontSize: 18)).tr(),
+                          Text("sab",style: TextStyle(fontSize: 18)).tr(),
+                          Text("dom",style: TextStyle(fontSize: 18)).tr()
                         ],
                       ),
                   ),
@@ -224,7 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
             return Row(
               children: [
                 Padding(padding: EdgeInsets.only(left: 20),
-                  child: Text('Ore Totale: ',style: TextStyle(fontSize: 18),)),
+                  child: Text('ore totale',style: TextStyle(fontSize: 18),).tr()),
                 Text(totale(),style: TextStyle(fontSize: 25)),
               ],
             );
@@ -323,7 +321,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
-      Fluttertoast.showToast(msg: "Premi di nuovo per uscire");
+      Fluttertoast.showToast(msg: "Premi di nuovo per uscire".tr());
       setData(DateTime.now());
       return Future.value(false);
     }

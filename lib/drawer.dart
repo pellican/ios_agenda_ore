@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ios_agenda_ore/opzioni.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'anno.dart';
-import 'main.dart';
 
 class AppDrawer extends StatelessWidget {
   Function setdata;
@@ -21,7 +20,7 @@ class AppDrawer extends StatelessWidget {
             child: Container(),
           ),
           ListTile(contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            title: Text('Mese',style: TextStyle(fontSize: 20),),
+            title: Text('Mese',style: TextStyle(fontSize: 20),).tr(),
             onTap: () {
               Navigator.pop(context);
             },
@@ -34,7 +33,7 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            title: Text('Opzioni',style: TextStyle(fontSize: 20),),
+            title: Text('Opzioni',style: TextStyle(fontSize: 20),).tr(),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context,MaterialPageRoute(builder: (context) => Opzioni()));

@@ -1,0 +1,27 @@
+{
+  "ore totale" : "Total Hours: ",
+  "lun" : "Mon","mar" : "Twe","mer" : "Wed", "gio" : "Thu","ven" : "Fri","sab" : "Sat","dom" : "Sun",
+  "Premi di nuovo per uscire" : "Press again to exit",
+  "Setta" : "Sect",
+  "Annulla" : "Cancel",
+  "Vuoi Eliminare !" : "Want to Eliminate!",
+  "Ora Inizio:" : "Start Time:",
+  "Pause:" : "Pauses:",
+  "Fine Mattino:" : "End Morning",
+  "Inizio Pomerigio:" : "Start Afternoon",
+  "Fine Lavoro: " : "End of work: ",
+  "Modifica" : "Edit",
+  "Errore !" : "Error !",
+  "Controlla i Dati" : "Check the data",
+  " ore: " : " hours: ",
+  "Vuoi Salvare?" : "Do you want to save?",
+  "Dati Salvati": "Data Saved",
+  "Lavorato" : "Worked ",
+  "Pagato" : "Paid ",
+  "Resto" : "Remainder ",
+  "Mese" : "Month",
+  "Anno" : "Year",
+  "Opzioni" : "Options"
+
+
+}
