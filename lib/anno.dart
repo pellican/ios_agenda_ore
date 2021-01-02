@@ -6,6 +6,8 @@ import 'package:ios_agenda_ore/database/datamesi.dart';
 import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:ios_agenda_ore/mesi_0.dart';
+import 'package:ios_agenda_ore/util/funzioni.dart';
+
 class Anno extends StatefulWidget {
   final Function setdata;
   Anno(this.setdata);
@@ -22,6 +24,7 @@ class _Anno extends State<Anno>{
   String date;
   var box;
   int current;
+  TotAnno totAnno;
   PageController controller =PageController(initialPage: 1,keepPage: false);
 
 
@@ -82,64 +85,167 @@ class _Anno extends State<Anno>{
         ),
       ),
 
-      bottomNavigationBar: Container(
-        height: 60,
-        color: Colors.grey[200],
-        child: FutureBuilder (future: box,builder: (context,snapshop){
-          if(snapshop.hasData){
-            return Row(
-              children: [
-                Padding(padding: EdgeInsets.only(left: 20),
-                    child: Text('Lavorato',style: TextStyle(fontSize: 18),).tr()),
-                Text(totaleLavorato(),style: TextStyle(fontSize: 25)),
-              ],
-            );
-          }else return Container();
-        }),
+      bottomNavigationBar: InkWell(
+        onTap: (){
+          dispayBottom(context);
+        },
+        child: Container(
+          height: 60,
+          color: Colors.grey[200],
+          child: FutureBuilder (future: box,builder: (context,snapshop){
+            if(snapshop.hasData){
+              totaleLavorato();
+              return Padding(padding: const EdgeInsets.only(top: 5),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text('Lavorato',textAlign: TextAlign.center,style: TextStyle(fontSize: 15),).tr(),
+                          Text(totAnno.lavorato,style: TextStyle(fontSize: 22)),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text('Pagato',textAlign: TextAlign.center,style: TextStyle(fontSize: 15),).tr(),
+                          Text(totAnno.pagato,style: TextStyle(fontSize: 22)),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text('Resto',textAlign: TextAlign.center,style: TextStyle(fontSize: 15),).tr(),
+                          Text(totAnno.resto,style: TextStyle(fontSize: 22)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }else return Container();
+          }),
+        ),
       ),
     );
   }
- totaleLavorato(){
+  dispayBottom (BuildContext context){
+    showModalBottomSheet(context: context,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+        builder: (ctx){
+      return Container(
+        height: MediaQuery.of(context).size.height  * 0.35,
+        decoration: BoxDecoration(color: Colors.grey[200],
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(25),topRight: Radius.circular(25))),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+              children: [
+                Padding(padding: EdgeInsets.only(top:20,left: 20,right: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Lavorato',style: TextStyle(fontSize: 18),).tr(),
+                      Text(totAnno.lavorato,style: TextStyle(fontSize: 25,color: Colors.grey[700])),
+                    ]),
+                ),
+                Padding(padding: EdgeInsets.only(top:20,left: 20,right: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Pagato',style: TextStyle(fontSize: 18),).tr(),
+                        Text(totAnno.pagato,style: TextStyle(fontSize: 25,color: Colors.grey[700])),
+                      ]),
+                ),
+                Padding(padding: EdgeInsets.only(top:20,left: 20,right: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Resto',style: TextStyle(fontSize: 18),).tr(),
+                        Text(totAnno.resto,style: TextStyle(fontSize: 25,color: Colors.grey[700])),
+                      ]),
+                ),
+                Padding(padding: EdgeInsets.only(top:20,left: 20,right: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Resto Anni Precedenti',style: TextStyle(fontSize: 18),),
+                        Text(totAnno.restoAnniP,style: TextStyle(fontSize: 25,color: Colors.grey[700])),
+                      ]),
+                ),
+                Padding(padding: EdgeInsets.only(top:20,left: 20,right: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Totale',style: TextStyle(fontSize: 18),),
+                        Text(totAnno.totResto,style: TextStyle(fontSize: 25,color: Colors.blue)),
+                      ]),
+                )
 
+          ]),
+        ),
+
+      );
+    });
+  }
+
+  totaleLavorato(){
     var box = Hive.box('datamesi');
-    int ora,min;
-    String totaleS,meAnno;
+    int ora,min,pag,res;
+    String meAnno;
     int oraT = 0;
     int minT = 0;
+    int pagT = 0;
+    int resT = 0;
+    int resAnnT=0;
+    String totLavorato;
+
     for (int i=0;i<12;i++){
       meAnno = DateFormat('MMMM', languageCode).format(new DateTime(0,i + 1));
       meAnno = meAnno[0].toUpperCase() + meAnno.substring(1);
-      var dati = box.get(meAnno + date) as Mesi;
-      if (dati != null) {
-        ora = int.parse(dati.lavorato.substring(0,2));
-        min = int.parse(dati.lavorato.substring(3,5));
+      var datiM = box.get(meAnno + date) as Mesi;
+      if (datiM != null) {
+        ora = datiM.ore;
+        min = datiM.min;
+        pag = int.parse(datiM.pagato);
+        res = int.parse(datiM.resto);
+        pagT=pagT+pag;
+        resT=resT+res;
         oraT=oraT+ora;
         minT=minT+min;
       }
     }
+
     if (minT >= 60) {
       double z = ((minT.toDouble()) / 60.0) + (oraT.toDouble());
       double v = (z - (( z.toInt())).toDouble()) * 60.0;
       oraT = z.toInt();
       minT = v.toInt();
     }
-    totaleS=zeroTime(oraT, minT);
-    return totaleS;
 
-
-
+    Map<dynamic, dynamic> raw = box.toMap();
+    List list = raw.values.toList();
+    if (list != null){
+      for (int i=0;i<list.length;i++){
+        Mesi mesi = list[i];
+        int r = int.parse(mesi.resto);
+        resAnnT=resAnnT+r;
+      }
+    }
+    totLavorato=Zero.zeroTime(oraT, minT);
+    int diff= resAnnT-resT;
+    totAnno = new TotAnno(totLavorato, pagT.toString(), resT.toString(),diff.toString(), resAnnT.toString());
  }
-  String zeroTime(int ora,int min){
-    String o,m;
-    if (ora.toString().length== 1)  o = "0"+ora.toString();
-    else o = ora.toString();
-    if (min.toString().length== 1)  m = "0"+min.toString();
-    else m = min.toString();
-    return o+":"+m;
-  }
-  refresh(){
-    setState(() {
 
-    });
+
+
+  refresh(){
+    setState(() { });
   }
+}
+class TotAnno {
+  String lavorato;
+  String pagato;
+  String resto;
+  String restoAnniP;
+  String totResto;
+  TotAnno(this.lavorato, this.pagato, this.resto, this.restoAnniP, this.totResto);
 }

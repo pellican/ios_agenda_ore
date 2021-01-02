@@ -3,15 +3,17 @@ part 'datamesi.g.dart';
 @HiveType(typeId: 2)
 class Mesi extends HiveObject{
   @HiveField(0)
-  String data;
+  String anno;
   @HiveField(1)
-  String lavorato;
+  int ore;
   @HiveField(2)
-  String pagato;
+  int min;
   @HiveField(3)
+  String pagato;
+  @HiveField(4)
   String resto;
 
-  Mesi(this.data,this.lavorato,this.pagato,this.resto);
+  Mesi(this.anno,this.ore,this.min,this.pagato,this.resto);
 
 
 }

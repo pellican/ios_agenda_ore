@@ -18,24 +18,26 @@ class MesiAdapter extends TypeAdapter<Mesi> {
     };
     return Mesi(
       fields[0] as String,
-      fields[1] as String,
-      fields[2] as String,
+      fields[1] as int,
+      fields[2] as int,
       fields[3] as String,
-
+      fields[4] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Mesi obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.data)
+      ..write(obj.anno)
       ..writeByte(1)
-      ..write(obj.lavorato)
+      ..write(obj.ore)
       ..writeByte(2)
-      ..write(obj.pagato)
+      ..write(obj.min)
       ..writeByte(3)
+      ..write(obj.pagato)
+      ..writeByte(4)
       ..write(obj.resto);
   }
 

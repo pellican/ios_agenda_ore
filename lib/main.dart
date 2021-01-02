@@ -16,6 +16,7 @@ import 'package:ios_agenda_ore/database/datamesi.dart';
 
 import 'package:ios_agenda_ore/database/giornate.dart';
 import 'package:ios_agenda_ore/drawer.dart';
+import 'package:ios_agenda_ore/util/funzioni.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'calendario_0.dart';
@@ -31,7 +32,7 @@ void main() async{
 
 
   runApp(EasyLocalization(
-      supportedLocales: [Locale('en', 'US'), Locale('it', 'IT'),Locale('en','UK')],
+      supportedLocales: [Locale('en'), Locale('it', 'IT'),Locale('en','UK')],
       path: 'assets/translations', // <-- change patch to your
       fallbackLocale: Locale('it', 'IT'),
       child: MyApp()));
@@ -78,7 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String languageCode = ui.window.locale.languageCode;
   int current;
   String date;
-
+  int oraT ;
+  int minT ;
   PageController controller =PageController(initialPage: 1,keepPage: false);
   var box;
   Future<void> _initAdMob() {
@@ -219,11 +221,12 @@ class _MyHomePageState extends State<MyHomePage> {
         color: Colors.grey[200],
         child: FutureBuilder (future: box,builder: (context,snapshop){
           if(snapshop.hasData){
+            totale();
             return Row(
               children: [
                 Padding(padding: EdgeInsets.only(left: 20),
                   child: Text('ore totale',style: TextStyle(fontSize: 18),).tr()),
-                Text(totale(),style: TextStyle(fontSize: 25)),
+                Text(Zero.zeroTime(oraT, minT),style: TextStyle(fontSize: 25)),
               ],
             );
           }else return Container();
@@ -265,9 +268,9 @@ class _MyHomePageState extends State<MyHomePage> {
   totale() {
     var box = Hive.box('database');
     int ora,min;
-    String totaleS;
-    int oraT = 0;
-    int minT = 0;
+
+    oraT = 0;
+    minT = 0;
     for (int i=1;i<32;i++){
       var orai = box.get(i.toString()+' ' + date) as Giornate;
       if (orai != null) {
@@ -283,32 +286,26 @@ class _MyHomePageState extends State<MyHomePage> {
       oraT = z.toInt();
       minT = v.toInt();
     }
-    totaleS=zeroTime(oraT, minT);
-    return totaleS;
-  }
-  String zeroTime(int ora,int min){
-    String o,m;
-    if (ora.toString().length== 1)  o = "0"+ora.toString();
-    else o = ora.toString();
-    if (min.toString().length== 1)  m = "0"+min.toString();
-    else m = min.toString();
-    return o+":"+m;
-  }
-  onGoBack() {
-    var setmesi = Hive.box('datamesi');
 
+  }
+
+  onGoBack() {
+    totale();
+    var setmesi = Hive.box('datamesi');
     var smesi = setmesi.get(date) as Mesi;
     if (smesi == null) {
-    setmesi.put(date, Mesi(date, totale(), '0', '0'));
+    setmesi.put(date, Mesi(data.year.toString(), oraT,minT, '0', '0'));
     }
     else {
-    smesi.lavorato = totale();
+    smesi.ore = oraT;
+    smesi.min = minT;
     smesi.pagato = '0';
     smesi.resto = '0';
     smesi.save();
     }
     setState(() {});
   }
+
   setData(DateTime date){
     setState(() {
       data = new DateTime(date.year,date.month,2);
@@ -316,6 +313,7 @@ class _MyHomePageState extends State<MyHomePage> {
       datadop =new DateTime(date.year,(date.month +1),2);
     });
   }
+
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||

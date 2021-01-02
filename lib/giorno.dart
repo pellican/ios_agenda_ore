@@ -630,8 +630,7 @@ class _Giorno extends State<Giorno>{
   void conferma(){
     showDialog(context: context,builder: (BuildContext context){
       return Dialog(
-          shape: RoundedRectangleBorder(
-              borderRadius:BorderRadius.circular(20.0)),
+          shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(20.0)),
           child: Container(
             height: 200,
               child: Column(

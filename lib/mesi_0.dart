@@ -6,10 +6,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:ios_agenda_ore/util/funzioni.dart';
 import 'package:ios_agenda_ore/util/heroDialogRoute.dart';
 import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 import 'database/datamesi.dart';
+
 
 class Mesi_0 extends StatelessWidget{
   Function setdata,refresh;
@@ -46,19 +48,16 @@ class Mesi_0 extends StatelessWidget{
                     color: Colors.white,
                     child: Column(
                       children: [
-                        Text(meAnno, style: new TextStyle(
-                            fontSize: 20, color: Colors.blue),),
-
-                            Padding(
-                              padding:  EdgeInsets.fromLTRB(6,10,6,0),
-                              child:
-                              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Lavorato',style: TextStyle(fontSize: 12),).tr(),
-                                    Text(dati != null ? dati.lavorato : '',style: TextStyle(fontSize: 15),)
-                                  ],
-                              )
-
+                        Text(meAnno, style: TextStyle(fontSize: 20, color: Colors.blue),),
+                        Padding(
+                          padding:  EdgeInsets.fromLTRB(6,10,6,0),
+                          child:
+                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Lavorato',style: TextStyle(fontSize: 12),).tr(),
+                                Text(dati != null ?  Zero.zeroTime(dati.ore, dati.min): '',style: TextStyle(fontSize: 15),)
+                              ],
+                          )
                         ),
                         Padding(
                             padding:  EdgeInsets.fromLTRB(6,8,6,0),
@@ -70,7 +69,6 @@ class Mesi_0 extends StatelessWidget{
                                 Text(dati != null ? dati.pagato : '',style: TextStyle(fontSize: 15),)
                               ],
                             )
-
                         ),
                         Padding(
                             padding:  EdgeInsets.fromLTRB(6,8,6,0),
@@ -82,13 +80,14 @@ class Mesi_0 extends StatelessWidget{
                                 Text(dati != null ? dati.resto : '',style: TextStyle(fontSize: 15),)
                               ],
                             )
-
                         ),
                       ],
                     ),
                   ),
                   onTap: (){
                     Navigator.push(context, HeroDialogRoute(builder: (BuildContext context){
+                      String mese =DateFormat('MMMM', languageCode).format(new DateTime(0,index + 1));
+                      mese = mese[0].toUpperCase() + mese.substring(1);
                       TextEditingController controller = TextEditingController();
                       bool edit= false;
                       return Dialog(
@@ -105,7 +104,7 @@ class Mesi_0 extends StatelessWidget{
                                     child: Material(color: Colors.blue[300],borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
                                       child: Padding(padding: const EdgeInsets.only(left: 20,right: 10),
                                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children:[
-                                              Expanded(child: Text(meAnno + anno,style: TextStyle(fontSize: 20,color: Colors.black))),
+                                              Expanded(child: Text(mese + anno,style: TextStyle(fontSize: 20,color: Colors.black))),
                                               IconButton(icon: Icon( Icons.calendar_today,size: 30,), onPressed: (){
                                                         setdata(new DateTime(date.year,index+1));
                                                         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -116,8 +115,9 @@ class Mesi_0 extends StatelessWidget{
                                     child: Material(
                                       child: Padding( padding: const EdgeInsets.only(left: 20,right: 20),
                                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [ Text('Lavorato',style: TextStyle(fontSize: 20,color: Colors.black)).tr(),
-                                            Text(dati != null ? dati.lavorato : '',style: TextStyle(fontSize: 20,color: Colors.black),)
+                                          children: [
+                                            Expanded(child: Text('Lavorato',style: TextStyle(fontSize: 20,color: Colors.black)).tr()),
+                                            Text(dati != null ? Zero.zeroTime(dati.ore, dati.min) : '',style: TextStyle(fontSize: 20,color: Colors.black),)
                                         ])),
                                     ),
                                   ),
@@ -125,7 +125,8 @@ class Mesi_0 extends StatelessWidget{
                                     child: Material(
                                       child: Padding( padding: const EdgeInsets.only(left: 20,right: 20),
                                           child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [ Text('Pagato',style: TextStyle(fontSize: 20,color: Colors.black)).tr(),
+                                              children: [
+                                                Expanded(child: Text('Pagato',style: TextStyle(fontSize: 20,color: Colors.black)).tr()),
                                                 if (!edit && dati != null) IconButton(icon: dati.pagato != '0'? Icon(Icons.clear):Icon(Icons.mode_edit),iconSize: 30 ,onPressed:() {
                                                     setStato((){ edit = true;});
                                                 },),
@@ -174,7 +175,7 @@ class Mesi_0 extends StatelessWidget{
                                           onPressed: (){Navigator.pop(context);
                                            if (controller.text != '' && controller.text != null && dati != null){
                                              int field = int.parse(controller.text);
-                                             int lav = int.parse(dati.lavorato.substring(0,2));
+                                             int lav = dati.ore;
                                              int rest = lav - field ;
                                              dati.pagato = controller.text;
                                              if (field != 0) dati.resto = rest.toString();
