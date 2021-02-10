@@ -37,6 +37,7 @@ class _Anno extends State<Anno>{
     });
     datapre =new DateTime(datapre.year-1,);
     datadop =new DateTime(datadop.year+1,);
+    super.initState();
   }
 
   void onpage() {
@@ -230,7 +231,7 @@ class _Anno extends State<Anno>{
         resAnnT=resAnnT+r;
       }
     }
-    totLavorato=Zero.zeroTime(oraT, minT);
+    totLavorato=zeroTime(oraT, minT);
     int diff= resAnnT-resT;
     totAnno = new TotAnno(totLavorato, pagT.toString(), resT.toString(),diff.toString(), resAnnT.toString());
  }

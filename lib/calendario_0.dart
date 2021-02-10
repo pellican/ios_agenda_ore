@@ -14,7 +14,7 @@ class Calendario0 extends StatelessWidget {
   final List giorni;
   List orario;
   final DateTime data;
-  var box =Hive.box('database');
+  var box = Hive.box('database');
   Calendario0(this.data,this.giorni,this.goback);
 
   final String languageCode = ui.window.locale.languageCode;

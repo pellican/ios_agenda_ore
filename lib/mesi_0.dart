@@ -55,7 +55,7 @@ class Mesi_0 extends StatelessWidget{
                           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text('Lavorato',style: TextStyle(fontSize: 12),).tr(),
-                                Text(dati != null ?  Zero.zeroTime(dati.ore, dati.min): '',style: TextStyle(fontSize: 15),)
+                                Text(dati != null ?  zeroTime(dati.ore, dati.min): '',style: TextStyle(fontSize: 15),)
                               ],
                           )
                         ),
@@ -117,7 +117,7 @@ class Mesi_0 extends StatelessWidget{
                                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Expanded(child: Text('Lavorato',style: TextStyle(fontSize: 20,color: Colors.black)).tr()),
-                                            Text(dati != null ? Zero.zeroTime(dati.ore, dati.min) : '',style: TextStyle(fontSize: 20,color: Colors.black),)
+                                            Text(dati != null ? zeroTime(dati.ore, dati.min) : '',style: TextStyle(fontSize: 20,color: Colors.black),)
                                         ])),
                                     ),
                                   ),

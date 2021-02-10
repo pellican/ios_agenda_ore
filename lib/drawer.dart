@@ -6,7 +6,8 @@ import 'anno.dart';
 
 class AppDrawer extends StatelessWidget {
   Function setdata;
-  AppDrawer(this.setdata);
+  Function refresh;
+  AppDrawer(this.setdata,this.refresh);
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +34,10 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            title: Text('Opzioni',style: TextStyle(fontSize: 20),).tr(),
+            title: Text('Backup',style: TextStyle(fontSize: 20),),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(context,MaterialPageRoute(builder: (context) => Opzioni()));
+              Navigator.push(context,MaterialPageRoute(builder: (context) => Opzioni(refresh)));
             },
           ),
           ListTile(contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),

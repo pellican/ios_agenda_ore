@@ -33,7 +33,11 @@ dependencies:
   hive_flutter: ^0.3.0+2
   path: ^1.7.0
   easy_localization:
-
+  permission_handler: ^5.0.1+1
+  google_sign_in:
+  googleapis:
+  googleapis_auth:
+  flutter_phoenix: ^0.1.0
 
 
 

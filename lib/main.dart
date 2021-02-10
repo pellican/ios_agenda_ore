@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:intl/intl.dart';
 
 import 'dart:ui' as ui;
@@ -84,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
   PageController controller =PageController(initialPage: 1,keepPage: false);
   var box;
   Future<void> _initAdMob() {
-    //WidgetsFlutterBinding.ensureInitialized();
+    WidgetsFlutterBinding.ensureInitialized();
     Admob.initialize();
   }
   @override
@@ -93,11 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Hive.openBox('datamesi',compactionStrategy: (entries, deletedEntries) =>  deletedEntries > 20);
 
     controller.addListener(() {
-  //    setState(() {
         current =controller.page.round();
         onpage();
-
- //     });
     });
     data = new DateTime(data.year,data.month,2);
     datapre =new DateTime(datapre.year,(datapre.month -1),2);
@@ -107,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     super.initState();
   }
+
   @override
   void dispose() {
 
@@ -160,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
           })
         ],
       ),
-      drawer: AppDrawer(setData),
+      drawer: AppDrawer(setData,refresh),
       body: WillPopScope(onWillPop: onWillPop,
         child: Container(
               child: Column(
@@ -226,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Padding(padding: EdgeInsets.only(left: 20),
                   child: Text('ore totale',style: TextStyle(fontSize: 18),).tr()),
-                Text(Zero.zeroTime(oraT, minT),style: TextStyle(fontSize: 25)),
+                Text(zeroTime(oraT, minT),style: TextStyle(fontSize: 25)),
               ],
             );
           }else return Container();
@@ -324,5 +323,15 @@ class _MyHomePageState extends State<MyHomePage> {
       return Future.value(false);
     }
     return Future.value(true);
+  }
+   refresh() {
+
+     Hive.close().then((value) {
+       box =  Hive.openBox('database',compactionStrategy: (entries, deletedEntries) =>  deletedEntries > 20);
+       Hive.openBox('datamesi',compactionStrategy: (entries, deletedEntries) =>  deletedEntries > 20);
+
+       Future.delayed(Duration(seconds: 1),()=>  setState(() {Navigator.pop(context);}));
+     });
+
   }
 }

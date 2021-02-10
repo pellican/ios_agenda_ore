@@ -1,5 +1,5 @@
-class Zero {
-  static String zeroTime(int ora,int min){
+
+    String zeroTime(int ora,int min){
     String o,m;
     if (ora.toString().length== 1)  o = "0"+ora.toString();
     else o = ora.toString();
@@ -7,4 +7,3 @@ class Zero {
     else m = min.toString();
     return o+":"+m;
   }
-}
