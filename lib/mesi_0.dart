@@ -44,42 +44,30 @@ class Mesi_0 extends StatelessWidget{
               child: Material(
                 child: InkWell(
                   child: Container(
-                    padding: EdgeInsets.only(top: 10),
+                    padding: EdgeInsets.only(top: 10,left: 6,right: 6,bottom: 10),
                     color: Colors.white,
-                    child: Column(
+                    child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(meAnno, style: TextStyle(fontSize: 20, color: Colors.blue),),
-                        Padding(
-                          padding:  EdgeInsets.fromLTRB(6,10,6,0),
-                          child:
-                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Lavorato',style: TextStyle(fontSize: 12),).tr(),
-                                Text(dati != null ?  zeroTime(dati.ore, dati.min): '',style: TextStyle(fontSize: 15),)
-                              ],
-                          )
+                        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Lavorato',style: TextStyle(fontSize: 12),).tr(),
+                              Text(dati != null ?  zeroTime(dati.ore, dati.min): '',style: TextStyle(fontSize: 15),)
+                            ],
                         ),
-                        Padding(
-                            padding:  EdgeInsets.fromLTRB(6,8,6,0),
-                            child:
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Pagato',style: TextStyle(fontSize: 12),).tr(),
-                                Text(dati != null ? dati.pagato : '',style: TextStyle(fontSize: 15),)
-                              ],
-                            )
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Pagato',style: TextStyle(fontSize: 12),).tr(),
+                            Text(dati != null ? dati.pagato : '',style: TextStyle(fontSize: 15),)
+                          ],
                         ),
-                        Padding(
-                            padding:  EdgeInsets.fromLTRB(6,8,6,0),
-                            child:
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Resto',style: TextStyle(fontSize: 12),).tr(),
-                                Text(dati != null ? dati.resto : '',style: TextStyle(fontSize: 15),)
-                              ],
-                            )
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Resto',style: TextStyle(fontSize: 12),).tr(),
+                            Text(dati != null ? dati.resto : '',style: TextStyle(fontSize: 15),)
+                          ],
                         ),
                       ],
                     ),
