@@ -21,8 +21,8 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  intl: ^0.16.1
-  date_utils: ^0.1.0
+  intl: ^0.17.0
+  in_date_utils: ^0.2.2
 
   numberpicker: ^1.2.1
   shared_preferences: ^0.5.12+4

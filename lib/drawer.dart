@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:ios_agenda_ore/opzioni.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'anno.dart';
@@ -43,7 +44,19 @@ class AppDrawer extends StatelessWidget {
           ListTile(contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
             title: Text('info',style: TextStyle(fontSize: 20),),
             onTap: () {
-
+              showDialog(context: context, builder: (context){
+                return AlertDialog(
+                  content: Container(
+                    height: 80,
+                    child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Agenda ore 3.0.0',style: TextStyle(fontSize: 20,color:Colors.cyan )),
+                        Text('@pietro.calleri')
+                      ],
+                    ),
+                  ),
+                );
+              });
             },
           ),
         ],

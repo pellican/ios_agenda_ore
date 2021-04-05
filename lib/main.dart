@@ -1,4 +1,4 @@
-import 'package:date_utils/date_utils.dart';
+import 'package:in_date_utils/in_date_utils.dart' as DateUtils;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -235,7 +235,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   giorni (DateTime data) {
     var days;
-    int lastDay = Utils
+
+    int lastDay = DateUtils.DateUtils
         .lastDayOfMonth(data)
         .day;
     int firstDay = data.weekday;

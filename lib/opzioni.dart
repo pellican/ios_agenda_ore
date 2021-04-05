@@ -222,7 +222,7 @@ class _Opzioni extends State<Opzioni>{
                                             Padding(padding: const EdgeInsets.only(top: 0),
                                               child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  FlatButton(onPressed: () {
+                                                  TextButton(onPressed: () {
                                                     showloaddialog();
                                                     var message = MyDrive(account).ripristino(mesiid,baseid,mesirev.revisions[posB].id,baserev.revisions[posB].id);
                                                      message.then((value)  {
@@ -258,9 +258,9 @@ class _Opzioni extends State<Opzioni>{
 
 
 
-                                                  },color: Colors.black12,
-                                                      child: Text('Ripristina',style: TextStyle(fontSize: 15),)),
-                                                  FlatButton(onPressed: (){
+                                                  },style: TextButton.styleFrom(backgroundColor: Colors.black12 ),
+                                                      child: Text('Ripristina',style: TextStyle(fontSize: 15,color: Colors.black),)),
+                                                  TextButton(onPressed: (){
                                                     showloaddialog();
                                                      var eli= MyDrive(account).elimina(mesiid, baseid, mesirev.revisions[posB].id,baserev.revisions[posB].id);
                                                      eli.then((value) {
@@ -282,15 +282,15 @@ class _Opzioni extends State<Opzioni>{
                                                        Navigator.pop(context);
                                                        noConn();
                                                      });
-                                                  },color: Colors.black12,
-                                                      child: Text('Elimina',style: TextStyle(fontSize: 15),))
+                                                  },style: TextButton.styleFrom(backgroundColor: Colors.black12 ),
+                                                      child: Text('Elimina',style: TextStyle(fontSize: 15,color: Colors.black),))
                                                 ],),),
 
                                           ],
                                         ),
                                       ),
                                       actions: [
-                                         FlatButton(onPressed: () => Navigator.pop(context),
+                                         TextButton(onPressed: () => Navigator.pop(context),
                                              child: Text('Annulla'))
                                       ],
                                     );
