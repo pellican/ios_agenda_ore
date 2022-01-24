@@ -74,21 +74,27 @@ class Calendario0 extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.of(context).push(
-                      PageRouteBuilder<Null>(
-                          pageBuilder: (BuildContext context, Animation<double> animation,
-                              Animation<double> secondaryAnimation) {
-                            return AnimatedBuilder(
-                                animation: animation,
-                                builder: (BuildContext context, Widget child) {
-                                  return Opacity(
-                                    opacity: animation.value,
-                                    child: Giorno(datas,goback),
-                                  );
-                                });
-                          },
-                          transitionDuration: Duration(milliseconds: 500)),
-                    );
+
+                    if (data.year < verdata.year ||
+                        data.year == verdata.year && data.month < verdata.month ||
+                        data.year == verdata.year && data.month == verdata.month && int.parse(giorni[index]) <= verdata.day ){
+                      Navigator.of(context).push(
+                        PageRouteBuilder<Null>(
+                            pageBuilder: (BuildContext context, Animation<double> animation,
+                                Animation<double> secondaryAnimation) {
+                              return AnimatedBuilder(
+                                  animation: animation,
+                                  builder: (BuildContext context, Widget child) {
+                                    return Opacity(
+                                      opacity: animation.value,
+                                      child: Giorno(datas,goback),
+                                    );
+                                  });
+                            },
+                            transitionDuration: Duration(milliseconds: 500)),
+                      );
+                    }
+
                    // Navigator.push(context,
                    //     MaterialPageRoute( builder: (context) => Giorno(datas,goback)));
 

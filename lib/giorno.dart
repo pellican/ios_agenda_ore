@@ -31,6 +31,7 @@ class _Giorno extends State<Giorno>{
   bool salvato = false;
   bool iz=false,p1=false,fm=false,ip=false,p2=false,fi=false;
   var banner;
+  var interstitial;
   var box =Hive.box('database');
 
 
@@ -68,8 +69,10 @@ class _Giorno extends State<Giorno>{
 
     banner= AdmobBanner(
     adUnitId: AdManager.bannerAdUnitId,
-    adSize: AdmobBannerSize.MEDIUM_RECTANGLE,);
-
+    adSize: AdmobBannerSize.FULL_BANNER,);
+    interstitial = AdmobInterstitial(
+    adUnitId: AdManager.interstitialAdUnitId);
+    interstitial.load();
 
   }
 
@@ -558,6 +561,7 @@ class _Giorno extends State<Giorno>{
                 height: 260,
                 width: double.infinity,
                 color: Colors.blueGrey[50],
+                alignment: Alignment.topCenter,
                 child: FutureBuilder (future: callAsync(),builder: (context,snapshop){
                   if (snapshop.hasData){
                     return banner;
@@ -654,7 +658,7 @@ class _Giorno extends State<Giorno>{
                       Expanded(child:SizedBox.expand(child: RaisedButton(color: Colors.white,shape: RoundedRectangleBorder(
                           borderRadius:BorderRadius.only(bottomRight: Radius.circular(20))),
                         child:Text('Ok',style: TextStyle(fontSize: 20)),
-                        onPressed: (){Navigator.pop(context);
+                        onPressed: () async{Navigator.pop(context);
                         totale();
 
                         box.put(widget.data, Giornate(widget.data, zeroTime(orain, minin), zeroTime(orpaM, mipaM), zeroTime(oraFiM, minFiM),
@@ -669,6 +673,8 @@ class _Giorno extends State<Giorno>{
                             textColor: Colors.black,
                             fontSize: 16.0
                         );
+                        final isload = await interstitial.isLoaded;
+                        if (isload ?? false) interstitial.show();
                         Navigator.of(context).popUntil((route) => route.isFirst);
 
                         },
